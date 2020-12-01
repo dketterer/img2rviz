@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>img2rviz</name>
+  <version>0.1.0</version>
+  <description>This package contains nodes to send images as PointCloud2 into rviz.</description>
+  <maintainer email="tonda@posteo.de">Daniel Ketterer</maintainer>
+  <license>MIT</license>
+  <url type="website"></url>
+  <author email="tonda@posteo.de">Daniel Ketterer</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>ros_numpy</build_depend>
+  <build_depend>cv_bridge</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>ros_numpy</run_depend>
+  <run_depend>cv_bridge</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+
+</package>

@@ -1,0 +1,14 @@
+<launch>
+    <arg name="frequency" default="0.2"/>
+    <arg name="imgPath" default=""/>
+    <arg name="scaleFactor" default="5"/>
+    <arg name="grayscale" default="false"/>
+
+    <node name="img2rviz_publisher" pkg="img2rviz" type="img2rviz_node.py" output="screen">
+        <param name="~frequency" value="$(arg frequency)" type="double"/>
+        <param name="~imgPath" value="$(arg imgPath)" type="str"/>
+        <param name="~scaleFactor" value="$(arg scaleFactor)" type="double"/>
+        <param name="~grayscale" value="$(arg grayscale)" type="bool"/>
+    </node>
+    <node pkg="tf" type="static_transform_publisher" name="plane" args="0 0 0 0 0 0 /map /img2rviz  100"/>
+</launch>
