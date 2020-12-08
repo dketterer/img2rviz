@@ -55,7 +55,7 @@ def img2point_cloud(image: np.array, scale_factor: float, gray_scale: bool, pixe
     return pc_msg
 
 
-def publish_image_as_pintcloud(point_cloud_publisher: rospy.Publisher, message: PointCloud2):
+def publish_image_as_pointcloud(point_cloud_publisher: rospy.Publisher, message: PointCloud2):
     h = std_msgs.msg.Header()
     h.stamp = rospy.Time.now()
     message.header = h
@@ -90,5 +90,5 @@ if __name__ == '__main__':
 
     r = rospy.Rate(frequency)
     while not rospy.is_shutdown():
-        publish_image_as_pintcloud(point_cloud_publisher, pc_msg)
+        publish_image_as_pointcloud(point_cloud_publisher, pc_msg)
         r.sleep()
