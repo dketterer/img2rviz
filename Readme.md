@@ -22,18 +22,20 @@ By default the image is displayed in the XY-Plane with a Z-value of 0.
 
 You can override this behaviour by replacing the static frame transformation.
 
+The Parameter `pixel_per_meter` lets you control how much world is represented by an image pixel. Default is 0.002m (500 pixel per meter).
+
 ## Roslaunch Examples
 
-**RGB reduced size every 5s:**
+**RGB reduced size every 5s with moved origin:**
 
 ```
-roslaunch img2rviz img2rviz.launch imgPath:=/home/daniel/Pictures/img.png frequency:=0.2 scaleFactor:=3
+roslaunch img2rviz img2rviz.launch imgPath:=/home/daniel/Pictures/img.png frequency:=0.2 scaleFactor:=3 orig_x:=-1 orig_y:=-2
 ```
 
-**Grayscale fullsize every 1s:**
+**Grayscale fullsize every 1s with 1000 pixel/m:**
 
 ```
-roslaunch img2rviz img2rviz.launch imgPath:=/home/daniel/Pictures/img.png frequency:=1 scaleFactor:=1 grayscale:=true
+roslaunch img2rviz img2rviz.launch imgPath:=/home/daniel/Pictures/img.png frequency:=1 scaleFactor:=1 grayscale:=true pixel_per_meter:=1000
 ```
 
 ## Installation

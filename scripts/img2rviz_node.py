@@ -7,7 +7,7 @@ import cv2
 import numpy as np
 
 
-def img2point_cloud(image: np.array, scale_factor: float, gray_scale: bool) -> PointCloud2:
+def img2point_cloud(image: np.array, scale_factor: float, gray_scale: bool, pixel_per_meter: float) -> PointCloud2:
     # downsample
     orig_height, orig_width = image.shape[:2]
     if gray_scale:
@@ -39,8 +39,9 @@ def img2point_cloud(image: np.array, scale_factor: float, gray_scale: bool) -> P
         ])
 
     # scale back to orig size
-    data['x'] = np.tile(np.linspace(0, orig_width, new_width), new_height) * -1
-    data['y'] = np.repeat(np.linspace(0, orig_height, new_height), new_width)
+    data['x'] = np.tile(np.linspace(0, orig_width, new_width) / pixel_per_meter, new_height)
+    data['y'] = ((np.repeat(np.linspace(0, orig_height, new_height) / pixel_per_meter,
+                            new_width) - orig_height / pixel_per_meter) * -1)
     data['z'] = np.zeros(img_len)
 
     if gray_scale:
@@ -67,12 +68,14 @@ if __name__ == '__main__':
     image_path = rospy.get_param('/img2rviz_publisher/imgPath', '')
     gray_scale = rospy.get_param('/img2rviz_publisher/grayscale')
     scale_factor = rospy.get_param('/img2rviz_publisher/scaleFactor', 4.)
+    pixel_per_meter = rospy.get_param('/img2rviz_publisher/pixel_per_meter', 500)
 
     print('Start Image Publisher')
     print(f'Image: {image_path}')
     print(f'Grayscale: {"on" if gray_scale else "off"}')
     print(f'Scale (divide) by factor {scale_factor}')
     print(f'Publish every {1 / frequency}s')
+    print(f'Pixel per meter : {pixel_per_meter}')
 
     assert (image_path), 'No image path!'
 
@@ -83,7 +86,7 @@ if __name__ == '__main__':
     image = cv2.imread(image_path)
     assert (image is not None), f'No image found at {image_path}'
 
-    pc_msg = img2point_cloud(image, scale_factor, gray_scale)
+    pc_msg = img2point_cloud(image, scale_factor, gray_scale, pixel_per_meter)
 
     r = rospy.Rate(frequency)
     while not rospy.is_shutdown():
